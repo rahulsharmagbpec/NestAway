@@ -10,7 +10,7 @@
         tools:context="com.example.anonymous.nestaway.MapsActivity"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_alignParentTop="true"
-        android:layout_above="@+id/linearLayout">
+        android:layout_above="@+id/textView4">
         </fragment>
     <LinearLayout
         android:id="@+id/llayout"
@@ -115,7 +115,18 @@
             style="@style/Base.TextAppearance.AppCompat.Widget.PopupMenu.Large"/>
     </LinearLayout>
 
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView4"
+        android:gravity="center"
+        style="@style/Base.TextAppearance.AppCompat.Widget.PopupMenu.Large"
+        android:layout_above="@+id/linearLayout"
+        android:textColor="@color/material_blue_grey_900"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>

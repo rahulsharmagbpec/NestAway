@@ -49,6 +49,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private int radius;
     private TextView analyse;
     private TextView analyseShare;
+    private TextView percentTextView;
+
+    ArrayList<String> first;
+    ArrayList<String> second;
+    ArrayList<String> third;
+    ArrayList<String> fourth;
+    ArrayList<String> fifth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +67,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         linearLayout = (LinearLayout) findViewById(R.id.llayout);
         analyse = (TextView) findViewById(R.id.textView2);
         analyseShare = (TextView) findViewById(R.id.textView3);
+        percentTextView = (TextView) findViewById(R.id.textView4);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -76,7 +84,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                     myCircle = mMap.addCircle(new CircleOptions()
                             .center(myMarker.getPosition())
-                            .radius(i).strokeWidth(2));
+                            .radius(i)
+                            .strokeWidth(2));
                 }
             }
 
@@ -90,6 +99,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -170,6 +184,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void drawMarkers()
     {
+        if(mMap!= null)
+            mMap.clear();
+        first = new ArrayList<>();
+        second = new ArrayList<>();
+        third = new ArrayList<>();
+        fourth = new ArrayList<>();
+        fifth = new ArrayList<>();
+
         int minRent = 90000;
         int maxRent = 0;
         int maxShared = 0;
@@ -207,6 +229,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             {
                 maxShared = list.get(i).getSharing();
             }
+            if(list.get(i).getRent() > 0 && list.get(i).getRent() < 4000)
+            {first.add(list.get(i).getRent() + "");}
+            else if(list.get(i).getRent() >4000 && list.get(i).getRent()<8000)
+            {
+                second.add(list.get(i).getRent()+"");
+            }
+            else if(list.get(i).getRent() > 8000 && list.get(i).getRent() < 12000)
+            {
+                third.add(list.get(i).getRent()+"");
+            }
+            else  if(list.get(i).getRent() > 12000 && list.get(i).getRent() < 16000)
+            {
+                fourth.add(list.get(i).getRent()+"");
+            }
+            else
+            {
+                fifth.add(list.get(i).getRent()+"");
+            }
         }
         int padding = 0; // offset from edges of the map in pixels
         LatLngBounds bounds = builder.build();
@@ -222,6 +262,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         {
             minRentMarker.setIcon(BitmapDescriptorFactory
                     .defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+        }
+        int len1 = first.size();
+        int len2 = second.size();
+        int len3 = third.size();
+        int len4 = fourth.size();
+        int len5 = fifth.size();
+
+        int max = Math.max(len1, Math.max(len2, Math.max(len3, Math.max(len4, len5))));
+        if(max == len1)
+        {
+            String str ="Max. houses are Between 00 - 4000";
+            percentTextView.setText(str);
+        }
+        else if(max == len2)
+        {
+            String str ="Max. houses are Between 4000 - 8000";
+            percentTextView.setText(str);
+        }
+        else if(max == len3)
+        {
+            String str ="Max. houses are Between 8000 - 12000";
+            percentTextView.setText(str);
+        }
+        else  if(max == len4)
+        {
+            String str ="Max. houses are Between 1200 - 16000";
+            percentTextView.setText(str);
+        }
+        else  if(max == len5)
+        {
+            String str ="Max. houses are above 16000";
+            percentTextView.setText(str);
         }
     }
 
@@ -267,6 +339,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Marker minRentMarker = null;
         Marker maxRentMarker = null;
 
+        first = new ArrayList<>();
+        second = new ArrayList<>();
+        third = new ArrayList<>();
+        fourth = new ArrayList<>();
+        fifth = new ArrayList<>();
+
         if(list != null)
         {
             int length = list.size();
@@ -298,6 +376,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     {
                         maxShared = list.get(i).getSharing();
                     }
+
+                    if(list.get(i).getRent() > 0 && list.get(i).getRent() < 4000)
+                    {first.add(list.get(i).getRent() + "");}
+                    else if(list.get(i).getRent() >4000 && list.get(i).getRent()<8000)
+                    {
+                        second.add(list.get(i).getRent()+"");
+                    }
+                    else if(list.get(i).getRent() > 8000 && list.get(i).getRent() < 12000)
+                    {
+                        third.add(list.get(i).getRent()+"");
+                    }
+                    else  if(list.get(i).getRent() > 12000 && list.get(i).getRent() < 16000)
+                    {
+                        fourth.add(list.get(i).getRent()+"");
+                    }
+                    else
+                    {
+                        fifth.add(list.get(i).getRent()+"");
+                    }
                 }
             }
             analyse.setText("Min Rent = "+minRent+", \nMax Rent = "+maxRent);
@@ -311,6 +408,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             {
                 maxRentMarker.setIcon(BitmapDescriptorFactory
                         .defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+            }
+            int len1 = first.size();
+            int len2 = second.size();
+            int len3 = third.size();
+            int len4 = fourth.size();
+            int len5 = fifth.size();
+
+            int max = Math.max(len1, Math.max(len2, Math.max(len3, Math.max(len4, len5))));
+            if(max == len1)
+            {
+                String str ="Max. houses are Between 00 - 4000";
+                percentTextView.setText(str);
+            }
+            else if(max == len2)
+            {
+                String str ="Max. houses are Between 4000 - 8000";
+                percentTextView.setText(str);
+            }
+            else if(max == len3)
+            {
+                String str ="Max. houses are Between 8000 - 12000";
+                percentTextView.setText(str);
+            }
+            else  if(max == len4)
+            {
+                String str ="Max. houses are Between 1200 - 16000";
+                percentTextView.setText(str);
+            }
+            else  if(max == len5)
+            {
+                String str ="Max. houses are above 16000";
+                percentTextView.setText(str);
             }
         }
     }
